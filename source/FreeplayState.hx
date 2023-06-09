@@ -141,7 +141,8 @@ class FreeplayState extends MusicBeatState
 		'secret-mod-leak',
 		'vs-dave-thanksgiving',
 		'bonkers',
-		'duper'
+		'duper',
+		'mastered'
 	];
 
 	private var camFollow:FlxObject;
@@ -221,7 +222,7 @@ class FreeplayState extends MusicBeatState
 		}
 		if (FlxG.save.data.terminalFound && !awaitingExploitation)
 		{
-			Catagories = ['dave', 'joke', 'extras', 'dave2.5', 'classic', 'cover', 'fanmade', 'terminal'];
+			Catagories = ['dave', 'joke', 'extras', 'dave2.5', 'classic', 'cover', 'fanmade', 'finale', 'terminal'];
 			translatedCatagory = [
 				LanguageManager.getTextString('freeplay_dave'),
 				LanguageManager.getTextString('freeplay_joke'),
@@ -413,7 +414,7 @@ class FreeplayState extends MusicBeatState
 				if (FlxG.save.data.electricCockaldoodledooUnlocked)
 					addWeek(['Cuzsie-X-Kapi-Shipping-Cute'], 20, ['cuzsiee']);
 			case 'finale':
-				addWeek(['Mastered'], 16, ['dave-splitathon-mastered']);
+				addWeek(['Mastered'], 1, ['dave-splitathon-mastered']);
 			case 'terminal':
 				if (FlxG.save.data.cheatingFound)
 					addWeek(['Cheating'], 14, ['bambi-3d']);
@@ -421,6 +422,7 @@ class FreeplayState extends MusicBeatState
 					addWeek(['Rigged'], 14, ['bambi-3d']);
 				if (FlxG.save.data.unfairnessFound)
 					addWeek(['Unfairness'], 15, ['bambi-unfair']);
+					addWeek(['Cozen'], 15, ['bambi-unfair']);
 				if (FlxG.save.data.exploitationFound)
 					addWeek(['Exploitation'], 16, ['expunged']);
 
