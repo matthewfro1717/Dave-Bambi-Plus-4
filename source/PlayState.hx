@@ -145,7 +145,7 @@ class PlayState extends MusicBeatState
 		['Perfect!!', 1] //The value on this one isn't used actually, since Perfect is always "1"
 	];
 
-	public static var darkLevels:Array<String> = ['bambiFarmNight', 'daveHouse_night', 'unfairness', 'bedroomNight', 'backyard',
+	public static var darkLevels:Array<String> = ['bambiFarmNight', 'daveHouse_night', 'unfairness', 'mastered', 'bedroomNight', 'backyard',
 	'scrappedbambiFarmNight', 'oldbambiFarmNight', 'bambiFarmNight2.5', 'daveHouse_night25'];
 	public var sunsetLevels:Array<String> = ['bambiFarmSunset', 'daveHouse_Sunset', 'oldbambiFarmSunset', 'scrappedbambiFarmSunset',
 	'bambiFarmSunset2.5'];
@@ -482,6 +482,10 @@ class PlayState extends MusicBeatState
 	var doorButton:BGSprite;
 	var doorClosed:Bool;
 	var doorChanging:Bool;
+	
+	//mastered
+	var blue3d:BGSprite;
+	var redbg:BGSprite;
 
 	var banbiWindowNames:Array<String> = ['when you realize you have school this monday', 'industrial society and its future', 'my ears burn', 'i got that weed card', 'my ass itch', 'bruh', 'alright instagram its shoutout time'];
 
@@ -1956,23 +1960,6 @@ class PlayState extends MusicBeatState
 					// below code assumes shaders are always enabled which is bad
 					voidShader(bg);
 				}
-
-				if (SONG.song.toLowerCase() == 'mastered' || localFunny == CharacterFunnyEffect.Recurser)
-				{
-					var blue3d:BGSprite = new BGSprite('bg', -275, -200, Paths.image('backgrounds/blue3d'), null, 1, 1, true, true);
-					new Animation('bganimationloop', 'blue3d', 5, true, [false, false]);
-				        blue3d.animation.play('bganimationloop');
-					blue3d.alpha = 0.75;
-					blue3d.visible = false;
-					add(blue3d);
-					
-					var redbg:BGSprite = new BGSprite('bg', -275, -200, Paths.image('backgrounds/redbg'), null, 1, 1, true, true);
-					new Animation('bganimationloop', 'redbg', 5, true, [false, false]);
-				        redbg.animation.play('bganimationloop');
-					redbg.alpha = 0.75;
-					redbg.visible = false;
-					add(redbg);
-				}
 						
 				var variantColor = getBackgroundColor(stageName);
 				if (stageName != 'daveHouse_night')
@@ -2002,6 +1989,37 @@ class PlayState extends MusicBeatState
 				var stageFront:BGSprite = new BGSprite('stageFront', -832, 505, Paths.image('backgrounds/dave-house/night/grass'), null);
 				sprites.add(stageFront);
 				add(stageFront);
+				
+				var blue3d:BGSprite = new BGSprite('bg', -275, -200, Paths.image('backgrounds/blue3d'), null, 1, 1, true, true);
+				new Animation('bganimationloop', 'blue3d', 5, true, [false, false]);
+			        blue3d.animation.play('bganimationloop');
+				blue3d.visible = false;
+				add(blue3d);
+                                
+				if (SONG.song.toLowerCase() == 'mastered' || localFunny == CharacterFunnyEffect.Recurser)
+				{
+					var bg:BGSprite = new BGSprite('bg', -600, -200, Paths.image('backgrounds/void/redsky_insanity'), null, 1, 1, true, true);
+					bg.alpha = 0.75;
+					bg.visible = false;
+					add(bg);
+					// below code assumes shaders are always enabled which is bad
+					voidShader(bg);			
+					
+					var redbg:BGSprite = new BGSprite('bg', -275, -200, Paths.image('backgrounds/redbg'), null, 1, 1, true, true);
+				        new Animation('bganimationloop', 'redbg', 5, true, [false, false]);
+			                redbg.animation.play('bganimationloop');
+				        redbg.visible = false;
+				        add(redbg);
+				}
+
+				var variantColor = getBackgroundColor(stageName);
+				if (stageName != 'mastered')
+				{
+					stageHills.color = variantColor;
+					grassbg.color = variantColor;
+					gate.color = variantColor;
+					stageFront.color = variantColor;
+				}
 
 			case 'inside-house':
 				bgZoom = 0.6;
@@ -2975,7 +2993,7 @@ class PlayState extends MusicBeatState
 		var variantColor:FlxColor = FlxColor.WHITE;
 		switch (stage)
 		{
-			case 'bambiFarmNight' | 'daveHouse_night' | 'daveHouse_night25' | 'backyard' | 'bedroomNight':
+			case 'bambiFarmNight' | 'daveHouse_night' | 'daveHouse_night25' | 'backyard' | 'bedroomNight' | 'mastered':
 				variantColor = nightColor;
 			case 'bambiFarmSunset' | 'daveHouse_sunset' | 'scrappedbambiFarmSunset' | 'oldbambiFarmSunset':
 				variantColor = sunsetColor;
@@ -8053,20 +8071,28 @@ class PlayState extends MusicBeatState
 			case 'mastered':
 				switch (curStep)
 				{
-					case 376 | 378 | 380 | 382:
-						defaultCamZoom = 0.3;
 					case 384 | 895 | 1412:
-						switchDad(FlxG.random.int(0, 999) == 0 ? 'dave-splitaton-mastered' : 'dave-3d-mastered', dad.getPosition());
-						curbg.loadGraphic(Paths.image('backgrounds/blue3d', 'shared'));
+						blue3d.visible = true;
+		                                switchDad('dave-3d-mastered', dad.getPosition(), false);
 					case 639 | 1152 | 1919:
-						switchDad(FlxG.random.int(0, 999) == 0 ? 'dave-3d-mastered' : 'dave-splitaton-mastered', dad.getPosition());
-						curbg.visible = false;
+						blue3d.visible = false;
+						switchDad('dave-splitathon-mastered', dad.getPosition(), false);
 					case 1152:
-						switchDad(FlxG.random.int(0, 999) == 0 ? 'dave-splitaton-mastered' : 'dave-scared-mastered', dad.getPosition());
-						curbg.loadGraphic(Paths.image('backgrounds/redbg', 'shared'));
+						redbg.visible = true;
+						switchDad('dave-scared-mastered', dad.getPosition(), false);
 					case 1176:
-						switchDad(FlxG.random.int(0, 999) == 0 ? 'dave-scared-mastered' : 'dave-splitaton-mastered', dad.getPosition());
-						curbg.loadGraphic(Paths.image('backgrounds/redbg', 'shared'));
+						redbg.visible = false;
+						switchDad('dave-3d-mastered', dad.getPosition(), false);
+					case 2047:
+						if (misses > 0) {
+							dad.animation.play('damn', true);
+						}
+						else if (misses > 20) {
+							dad.animation.play('bro', true);
+					        }
+						else if (botPlay) {
+							dad.animation.play('bro', true);
+					        }
 				}
 
 			case 'insanity' | 'insanity-2.5':
